@@ -585,7 +585,7 @@ body {
 .sc-value.mono { font-family: var(--font-mono); font-size: 1.1rem; }
 .sc-unit { font-size: 0.65rem; color: var(--text-muted); font-weight: 400; margin-left: 2px; }
 .sc-green  { color: var(--green); }
-.sc-orange { color: var(--amber); }
+.sc-orange { color: var(--red); }
 .sc-blue   { color: var(--blue);  }
 .sc-muted  { color: var(--text-muted); }
 
@@ -596,7 +596,7 @@ body {
 }
 
 .dot-green  { background: var(--green); box-shadow: 0 0 6px var(--green); }
-.dot-orange { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+.dot-orange { background: var(--red); box-shadow: 0 0 6px var(--amber); }
 .dot-muted  { background: var(--text-muted); }
 
 .pulse-dot { animation: blink 1s infinite; }
