@@ -1,0 +1,286 @@
+/* ============================================================
+   PedSafeML — Login Page Styles
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+.login-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #0a0d12;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(245,158,11,0.07) 0%, transparent 70%);
+  position: relative;
+  padding: 2rem 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Background grid */
+.login-bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(56,189,248,0.025) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(56,189,248,0.025) 40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Card */
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: #0f1419;
+  border: 1px solid #1e2d3d;
+  border-radius: 12px;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 0 60px rgba(245,158,11,0.06), 0 20px 60px rgba(0,0,0,0.5);
+}
+
+/* Brand */
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.login-brand-icon {
+  font-size: 2.2rem;
+  color: #f59e0b;
+  line-height: 1;
+}
+
+.login-brand-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #e2eaf3;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.login-accent { color: #f59e0b; }
+
+.login-brand-sub {
+  font-size: 0.68rem;
+  color: #7a92a8;
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+}
+
+.login-divider {
+  height: 1px;
+  background: #1e2d3d;
+  margin-bottom: 1.5rem;
+}
+
+.login-heading {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e2eaf3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.login-subheading {
+  font-size: 0.78rem;
+  color: #7a92a8;
+  margin-bottom: 1.75rem;
+  line-height: 1.5;
+}
+
+/* Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  color: #3d566e;
+  letter-spacing: 0.14em;
+}
+
+.field-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.field-icon {
+  position: absolute;
+  left: 0.75rem;
+  font-size: 0.85rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.field-input {
+  width: 100%;
+  padding: 0.65rem 0.75rem 0.65rem 2.4rem;
+  background: #161e28;
+  border: 1px solid #1e2d3d;
+  border-radius: 6px;
+  color: #e2eaf3;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input::placeholder { color: #3d566e; }
+
+.field-input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
+}
+
+.field-input.input-error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.1);
+}
+
+.show-pass-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  line-height: 1;
+  color: #7a92a8;
+  transition: color 0.2s;
+}
+.show-pass-btn:hover { color: #e2eaf3; }
+
+/* Error */
+.login-error {
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.8rem;
+  color: #ef4444;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+/* Button */
+.login-btn {
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #1a0a00;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+  margin-top: 0.25rem;
+}
+
+.login-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.login-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-btn-loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.login-spinner { display: flex; align-items: center; justify-content: center; gap: 2px; }
+
+.dots {
+  display: inline-block;
+  animation: dot-cycle 1.2s steps(4, end) infinite;
+  width: 1.5ch;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+@keyframes dot-cycle {
+  0%  { width: 0; }
+  25% { width: 0.5ch; }
+  50% { width: 1ch; }
+  75% { width: 1.5ch; }
+  100%{ width: 0; }
+}
+
+/* Demo hint */
+.login-demo-hint {
+  margin-top: 1.75rem;
+  background: #0a0d12;
+  border: 1px solid #1e2d3d;
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+}
+
+.hint-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  color: #3d566e;
+  letter-spacing: 0.14em;
+  margin-bottom: 0.6rem;
+}
+
+.hint-rows { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.hint-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hint-role {
+  font-size: 0.75rem;
+  color: #7a92a8;
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.hint-cred {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: #38bdf8;
+}
+
+/* Footer */
+.login-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.5rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  color: #3d566e;
+  letter-spacing: 0.08em;
+}

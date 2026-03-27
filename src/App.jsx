@@ -1,42 +1,38 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
 import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 
-function App() {
-  // 🔹 Global System Configuration State
-  const [threshold, setThreshold] = useState(5);
-  const [alertsEnabled, setAlertsEnabled] = useState(true);
-  const [zoneName, setZoneName] = useState("Crosswalk-01");
+// If not logged in → redirect to login. If logged in → allow access
+function ProtectedRoute({ children }) {     
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  return children;
+}
 
+function App() {
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Dashboard
-              threshold={threshold}
-              alertsEnabled={alertsEnabled}
-              zoneName={zoneName}
-            />
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <Settings
-              threshold={threshold}
-              setThreshold={setThreshold}
-              alertsEnabled={alertsEnabled}
-              setAlertsEnabled={setAlertsEnabled}
-              zoneName={zoneName}
-              setZoneName={setZoneName}
-            />
-          }
-        />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   );
 }
 

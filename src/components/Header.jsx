@@ -1,12 +1,24 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Header() {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const clockTimer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(clockTimer);
   }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <header className="dash-header">
@@ -23,6 +35,24 @@ function Header() {
           <p className="header-subtitle">Pedestrian Detection Crosswalk Safety System</p>
         </div>
       </div>
+
+      {/* Navigation — only shown when logged in */}
+      {user && (
+        <nav className="header-nav">
+          <button
+            className={`nav-btn ${isActive("/dashboard") ? "nav-btn-active" : ""}`}
+            onClick={() => navigate("/dashboard")}
+          >
+            <span className="nav-icon">◉</span> Dashboard
+          </button>
+          <button
+            className={`nav-btn ${isActive("/settings") ? "nav-btn-active" : ""}`}
+            onClick={() => navigate("/settings")}
+          >
+            <span className="nav-icon">⚙</span> Settings
+          </button>
+        </nav>
+      )}
 
       <div className="header-right">
         <div className="header-meta">
@@ -48,6 +78,21 @@ function Header() {
             <span className="meta-label">ZONE</span>
             <span className="meta-value">CROSSWALK-01</span>
           </div>
+
+          {/* User + Logout — only when logged in */}
+          {user && (
+            <>
+              <div className="meta-divider" />
+              <div className="meta-item">
+                <span className="meta-label">OPERATOR</span>
+                <span className="meta-value">{user.username}</span>
+              </div>
+              <div className="meta-divider" />
+              <button className="logout-btn" onClick={handleLogout}>
+                ⏻ Logout
+              </button>
+            </>
+          )}
         </div>
       </div>
     </header>

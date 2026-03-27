@@ -783,3 +783,62 @@ body {
   .status-card-item { min-width: 45%; }
   .dash-footer  { flex-direction: column; gap: 0.3rem; text-align: center; }
 }
+/* ── Header Navigation ──────────────────────────────────────── */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.9rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.nav-btn:hover {
+  background: var(--bg-card);
+  border-color: var(--border-bright);
+  color: var(--text-primary);
+}
+
+.nav-btn-active {
+  background: var(--amber-dim);
+  border-color: rgba(245,158,11,0.3);
+  color: var(--amber);
+}
+
+.nav-icon { font-size: 0.75rem; }
+
+/* ── Logout Button ──────────────────────────────────────────── */
+.logout-btn {
+  padding: 0.3rem 0.75rem;
+  background: transparent;
+  border: 1px solid #2a3f57;
+  border-radius: 4px;
+  color: #7a92a8;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.logout-btn:hover {
+  background: rgba(239,68,68,0.08);
+  border-color: #ef4444;
+  color: #ef4444;
+}

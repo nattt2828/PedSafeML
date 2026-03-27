@@ -1,32 +1,41 @@
 import { useState, useEffect, useRef } from "react";
 import Header from "../components/Header";
 import StatusCard from "../components/StatusCard";
+import { useSettings } from "../context/SettingsContext";
 import "../styles/dashboard.css";
 
 function Dashboard() {
-  const systemStatus = "Active";
-  const [pedestrianDetected, setPedestrianDetected] = useState(true);
-  const [detectionTime, setDetectionTime] = useState(0);
-  const [warningLight, setWarningLight] = useState("OFF");
-  const [logs, setLogs] = useState([]);
-  const logsEndRef = useRef(null);
+  const { settings } = useSettings();
+  const { alertThreshold, cameraZone, confidenceCutoff, sensitivityMode } = settings;
 
-  // Detection timer
-  useEffect(() => {
+  const systemStatus = "Active";
+  const [pedestrianDetected, setPedestrianDetected] = useState(true);          // if AI detects a person
+  const [detectionTime, setDetectionTime] = useState(0);                      //how long the person is detected
+  const [warningLight, setWarningLight] = useState("OFF");                   //alert status
+  const [logs, setLogs] = useState([]);                                     //event history
+  const logsEndRef = useRef(null);    
+
+  // Detection timer                
+  useEffect(() => {                     
     let timer;
     if (pedestrianDetected) {
-      timer = setInterval(() => setDetectionTime((prev) => prev + 1), 1000);
+      timer = setInterval(() => setDetectionTime((prev) => prev + 1), 1000);      // Timer increases when detection occurs
     }
     return () => clearInterval(timer);
   }, [pedestrianDetected]);
 
-  // Activate warning light at 5 seconds
+  // Activate warning light at alertThreshold seconds
   useEffect(() => {
-    if (detectionTime === 5) {
+    if (detectionTime >= alertThreshold && warningLight === "OFF" && pedestrianDetected) {
       setWarningLight("ORANGE");
-      addLog("WARNING", "5-second threshold reached. Warning light activated.");
+      addLog("WARNING", `${alertThreshold}-second threshold reached. Warning light activated.`);
     }
-  }, [detectionTime]);
+  }, [detectionTime, alertThreshold, warningLight, pedestrianDetected]);
+
+  // Scroll logs to latest entry
+  useEffect(() => {
+    logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [logs]);
 
   const addLog = (level, message) => {
     const timestamp = new Date().toLocaleTimeString("en-US", { hour12: false });
@@ -34,7 +43,7 @@ function Dashboard() {
   };
 
   const isWarningActive = warningLight === "ORANGE";
-  const progressPct = Math.min((detectionTime / 5) * 100, 100);
+  const progressPct = Math.min((detectionTime / alertThreshold) * 100, 100);
 
   const toggleDetection = () => {
     if (pedestrianDetected) {
@@ -44,6 +53,7 @@ function Dashboard() {
       addLog("INFO", "Pedestrian detection cleared. Warning light deactivated.");
     } else {
       setPedestrianDetected(true);
+      setDetectionTime(0);
       addLog("INFO", "Pedestrian detected at crosswalk zone.");
     }
   };
@@ -95,7 +105,7 @@ function Dashboard() {
               <span className="feed-stat">RES: 1920×1080</span>
               <span className="feed-stat">FPS: 30</span>
               <span className="feed-stat">MODEL: YOLOv8</span>
-              <span className="feed-stat">CONF: 94.2%</span>
+              <span className="feed-stat">CONF: {confidenceCutoff}%</span>
             </div>
           </section>
 
@@ -130,19 +140,21 @@ function Dashboard() {
             <div className="detection-progress-block">
               <div className="progress-header">
                 <span className="progress-label">DETECTION THRESHOLD</span>
-                <span className="progress-value mono">{detectionTime}s / 5s</span>
+                <span className="progress-value mono">{detectionTime}s / {alertThreshold}s</span>
               </div>
               <div className="progress-track">
                 <div
                   className={`progress-fill ${progressPct >= 100 ? "fill-complete" : ""}`}
                   style={{ width: `${progressPct}%` }}
                 ></div>
-                {[1, 2, 3, 4, 5].map((tick) => (
-                  <div key={tick} className="progress-tick" style={{ left: `${(tick / 5) * 100}%` }} />
+                {Array.from({ length: alertThreshold }, (_, i) => i + 1).map((tick) => (
+                  <div key={tick} className="progress-tick" style={{ left: `${(tick / alertThreshold) * 100}%` }} />
                 ))}
               </div>
               <div className="progress-ticks-label">
-                {[1, 2, 3, 4, 5].map((t) => <span key={t}>{t}s</span>)}
+                {Array.from({ length: alertThreshold }, (_, i) => i + 1).map((t) => (
+                  <span key={t}>{t}s</span>
+                ))}
               </div>
             </div>
 
@@ -209,7 +221,7 @@ function Dashboard() {
                 <span className="stat-label">Alerts Triggered</span>
               </div>
               <div className="stat-block">
-                <span className="stat-num mono">94.2%</span>
+                <span className="stat-num mono">{confidenceCutoff}%</span>
                 <span className="stat-label">Model Confidence</span>
               </div>
               <div className="stat-block">
@@ -227,10 +239,11 @@ function Dashboard() {
               <div className="info-rows">
                 {[
                   { key: "Detection Model", val: "YOLOv8-nano" },
-                  { key: "Alert Threshold", val: "5 seconds",      mono: true },
-                  { key: "Camera Zone",     val: "Crosswalk-01" },
-                  { key: "Hardware",        val: "Raspberry Pi 4B" },
-                  { key: "Light Output",    val: "Orange LED Array" },
+                  { key: "Alert Threshold",  val: `${alertThreshold} seconds`, mono: true },
+                  { key: "Camera Zone",      val: cameraZone },
+                  { key: "Sensitivity",      val: sensitivityMode.charAt(0).toUpperCase() + sensitivityMode.slice(1) },
+                  { key: "Hardware",         val: "Raspberry Pi 4B" },
+                  { key: "Light Output",     val: "Orange LED Array" },
                 ].map(({ key, val, mono }) => (
                   <div className="info-row" key={key}>
                     <span className="info-key">{key}</span>
